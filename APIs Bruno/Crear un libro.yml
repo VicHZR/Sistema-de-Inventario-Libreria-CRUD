@@ -1,0 +1,35 @@
+info:
+  name: Crear un libro
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{url}}api/books"
+  body:
+    type: json
+    data: |
+      {
+        "code": "BK-FIN-2026",
+        "title": "Ingeniería Financiera Avanzada",
+        "pageCount": 450,
+        "quantity": 25,
+        "description": "Activo bibliográfico para el área de tesorería y gestión de riesgos.",
+        "authors": [
+          {
+            "firstName": "Victor",
+            "lastName": "H."
+          },
+          {
+            "firstName": "Ana",
+            "lastName": "Lozano"
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
