@@ -1,0 +1,85 @@
+<h2 mat-dialog-title class="dialog-title">
+  <mat-icon class="header-icon-modal">{{ isEditMode ? 'edit_note' : 'add_circle' }}</mat-icon>
+  <span>{{ isEditMode ? 'EDITAR REGISTRO DE LIBRO' : 'NUEVO REGISTRO DE LIBRO' }}</span>
+</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="bookForm" class="banking-form-container pt-3">
+    
+    <div class="form-row mb-4">
+      <mat-form-field appearance="outline" class="flex-3 banking-field">
+        <mat-label>Título del Libro</mat-label>
+        <mat-icon matPrefix>menu_book</mat-icon>
+        <input matInput placeholder="Ej. El Quijote de la Mancha" formControlName="title" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="flex-1 banking-field">
+        <mat-label>Páginas</mat-label>
+        <mat-icon matPrefix>description</mat-icon>
+        <input matInput type="number" formControlName="pageCount" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row mb-4">
+      <mat-form-field appearance="outline" class="flex-3 banking-field">
+        <mat-label>Código de Activo (ISBN/SKU)</mat-label>
+        <mat-icon matPrefix>qr_code</mat-icon>
+        <input matInput placeholder="Ej. BK-2026-001" formControlName="code" />
+        <mat-hint>Identificador único institucional</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="flex-1 banking-field">
+        <mat-label>Stock</mat-label>
+        <mat-icon matPrefix>inventory_2</mat-icon>
+        <input matInput type="number" min="0" formControlName="quantity" />
+        <mat-hint>Unidades</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="section-header mb-2 d-flex align-items-center justify-content-between">
+      <span class="text-secondary fw-bold">AUTORES RESPONSABLES</span>
+      <button type="button" mat-icon-button color="primary" (click)="addAuthor()" matTooltip="Agregar otro autor">
+        <mat-icon>person_add</mat-icon>
+      </button>
+    </div>
+
+    <div formArrayName="authors">
+      @for (author of authorsFormArray.controls; track $index) {
+        <div [formGroupName]="$index" class="form-row mb-3 align-items-center">
+          <mat-form-field appearance="outline" class="flex-1 banking-field">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="firstName" placeholder="Nombre(s)" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="flex-1 banking-field">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="lastName" placeholder="Apellido(s)" />
+          </mat-form-field>
+
+          @if (authorsFormArray.length > 1) {
+            <button type="button" mat-icon-button color="warn" (click)="removeAuthor($index)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-row mt-3">
+      <mat-form-field appearance="outline" class="full-width banking-field">
+        <mat-label>Resumen Ejecutivo / Descripción</mat-label>
+        <mat-icon matPrefix>notes</mat-icon>
+        <textarea matInput rows="4" formControlName="description" placeholder="Breve reseña técnica..."></textarea>
+      </mat-form-field>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions-banking">
+  <button mat-button mat-dialog-close class="btn-cancel-banking">DESCARTAR</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="bookForm.invalid" class="btn-primary-banking-modal">
+    <mat-icon>save</mat-icon>
+    {{ isEditMode ? 'ACTUALIZAR REGISTRO' : 'CONFIRMAR Y GUARDAR' }}
+  </button>
+</mat-dialog-actions>

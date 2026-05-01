@@ -1,0 +1,450 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* 
+   ===== SISTEMA DE DISEÑO INTEGRAL (V15.0) ===== 
+   Arquitectura de Alta Gama: Visibilidad Total, Modal Espaciado y Doble Tema
+*/
+
+:root {
+  /* --- TEMA CLARO: CORPORATIVO PROFESIONAL --- */
+  --bg-app: #f1f5f9;
+  --card-bg: #ffffff;
+  --filter-section-bg: #f8fafc;
+  --input-bg: #ffffff;
+  
+  /* Colores de Identidad */
+  --primary-banking: #004481;  /* Azul Ejecutar */
+  --clear-banking: #475569;    /* Gris Pizarra Limpiar */
+  --all-banking: #1565c0;      /* Azul Royal Catálogo */
+  --accent-banking: #00b1ea;   /* Turquesa */
+
+  /* Tipografía y Contornos */
+  --text-main: #1e293b;
+  --text-secondary: #64748b;
+  --text-on-primary: #ffffff;
+  --border-color: #94a3b8;     /* Borde fuerte para visibilidad */
+  --table-header: #f1f5f9;
+  
+  /* Sombras y Efectos */
+  --glow-edit: rgba(0, 68, 129, 0.3);
+  --glow-delete: rgba(211, 47, 47, 0.3);
+  --shadow-banking: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme {
+  /* --- TEMA OSCURO: MIDNIGHT DASHBOARD --- */
+  --bg-app: #0a1128; 
+  --card-bg: #16213e; 
+  --filter-section-bg: #1e293b;
+  --input-bg: #0f172a;
+  
+  /* Colores Eléctricos */
+  --primary-banking: #00e5ff;  /* Turquesa Neón */
+  --clear-banking: #ffb300;    /* Ámbar */
+  --all-banking: #818cf8;      /* Lavanda */
+  --accent-banking: #22d3ee;
+
+  /* Tipografía Dark Mode */
+  --text-main: #ffffff !important; 
+  --text-secondary: #cbd5e1; 
+  --text-on-primary: #000000;  /* Letras Negras para botones brillantes */
+  --border-color: #334155;
+  --table-header: #1e293b;
+
+  /* Resplandores */
+  --glow-edit: rgba(0, 229, 255, 0.5);
+  --glow-delete: rgba(255, 82, 82, 0.5);
+}
+
+/* ===== 1. CORE STYLES ===== */
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+h2, p, span, th, td, label {
+  color: inherit;
+}
+
+/* ===== 2. CONTENEDORES DE ALTA DENSIDAD ===== */
+.crud-card {
+  background: var(--card-bg) !important;
+  border-radius: 24px !important;
+  border: 1px solid var(--border-color) !important;
+  margin: 24px;
+  padding: 40px !important;
+  box-shadow: var(--shadow-banking) !important;
+  transition: all 0.4s ease-in-out;
+}
+
+.crud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 24px;
+}
+
+.banking-title {
+  color: var(--primary-banking) !important;
+  font-weight: 900 !important;
+  font-size: 32px !important;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ===== 3. BARRA DE FILTROS DASHBOARD ===== */
+.banking-filters {
+  background-color: var(--filter-section-bg) !important;
+  border: 2px solid var(--border-color) !important;
+  display: flex;
+  flex-direction: column; 
+  gap: 32px;
+  padding: 32px !important;
+  border-radius: 20px !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.filter-inputs-container {
+  display: flex;
+  gap: 40px; 
+  width: 100%;
+}
+
+/* Sobreescritura de Campos Material (Input) */
+.banking-field {
+  flex: 1;
+  transition: transform 0.3s ease;
+
+  /* Contorno visible */
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: var(--border-color) !important;
+    border-width: 2px !important;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--input-bg) !important;
+    border-radius: 12px !important;
+    padding: 8px 12px !important;
+  }
+
+  .mat-mdc-input-element {
+    color: var(--text-main) !important;
+    font-weight: 600 !important;
+  }
+
+  .mat-mdc-form-field-label, 
+  .mat-mdc-floating-label {
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+  }
+}
+
+/* PARCHE PARA MODO OSCURO: TEXTO E ICONOS */
+.dark-theme {
+  .mat-mdc-input-element::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  
+  /* Forzar iconos blancos (libro, líneas, lupa) */
+  .mat-mdc-form-field-icon-prefix .mat-icon,
+  .mat-mdc-form-field-icon-suffix .mat-icon,
+  .mat-icon-button .mat-icon {
+    color: #ffffff !important;
+  }
+}
+
+/* ===== 4. SISTEMA DE BOTONES UNIFORMES ===== */
+.button-group-banking {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  width: 100%;
+}
+
+.mat-mdc-flat-button.btn-banking-uniform {
+  min-width: 220px !important;
+  height: 56px !important;
+  border-radius: 14px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  font-size: 14px !important;
+  letter-spacing: 1.2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Identidad Visual de Botones */
+.mat-mdc-flat-button.btn-execute {
+  background-color: var(--primary-banking) !important;
+  color: var(--text-on-primary) !important;
+}
+
+.mat-mdc-flat-button.btn-clear {
+  background-color: var(--clear-banking) !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-flat-button.btn-all {
+  background-color: var(--all-banking) !important;
+  color: #ffffff !important;
+}
+
+/* Hover Effects para botones */
+.mat-mdc-flat-button.btn-banking-uniform:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ===== 5. TABLA DE DATOS (ESTILO LIMPIO) ===== */
+.crud-table-container {
+  background-color: transparent !important;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 40px;
+}
+
+.mat-mdc-table, .banking-table {
+  background-color: transparent !important;
+  width: 100%;
+}
+
+.mat-mdc-header-row {
+  background-color: var(--table-header) !important;
+}
+
+.mat-mdc-header-cell {
+  color: var(--primary-banking) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  font-size: 12px !important;
+  padding: 24px !important;
+  border-bottom: 4px solid var(--border-color) !important;
+}
+
+.mat-mdc-cell {
+  color: var(--text-main) !important;
+  padding: 24px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* ===== 6. MODAL "NUEVO LIBRO": ARQUITECTURA PROFESIONAL ===== */
+
+/* Fix: Fondo inmersivo en Dark Mode */
+.dark-theme .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: var(--card-bg) !important;
+}
+
+.banking-dialog-class .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 28px !important;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Cabecera del Modal (Sin degradados molestos) */
+.dialog-title {
+  background-color: var(--primary-banking) !important;
+  color: var(--text-on-primary) !important;
+  padding: 35px 48px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center;
+  gap: 18px;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  border-bottom: 5px solid var(--accent-banking) !important;
+}
+
+/* Contenido del Formulario */
+.dialog-content {
+  padding: 48px !important;
+  background-color: transparent !important;
+}
+
+/* Separación Profesional de Módulos dentro del Modal */
+.form-row {
+  display: flex;
+  gap: 32px; 
+  margin-bottom: 35px; 
+}
+
+/* Boton Guardar: Fix visibilidad total */
+.mat-mdc-flat-button.btn-primary-banking-modal {
+  background-color: var(--primary-banking) !important;
+  color: var(--text-on-primary) !important;
+  font-weight: 900 !important;
+  padding: 0 40px !important;
+  height: 60px !important;
+  border-radius: 16px !important;
+  font-size: 15px !important;
+}
+
+.dialog-actions-banking {
+  padding: 30px 48px !important;
+  background-color: var(--filter-section-bg) !important;
+  border-top: 1.5px solid var(--border-color);
+  gap: 20px;
+}
+
+/* ===== 7. UTILIDADES FINALES ===== */
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.page-badge-banking {
+  background-color: var(--primary-banking) !important;
+  color: var(--text-on-primary) !important;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn-action-banking:hover {
+  filter: drop-shadow(0 0 12px var(--glow-edit));
+  transform: translateY(-4px) scale(1.1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mat-icon {
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 24px !important;
+}
+
+/* ===== DISEÑO DE PÁGINA DE LOGIN ===== */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top right, var(--primary-banking), var(--bg-app));
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px !important;
+  border-radius: 28px !important;
+  text-align: center;
+}
+
+.bank-logo {
+  font-size: 60px !important;
+  width: 60px !important;
+  height: 60px !important;
+  color: var(--primary-banking);
+  margin-bottom: 20px;
+}
+
+.btn-login {
+  width: 100%;
+  height: 56px !important;
+  border-radius: 14px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  background-color: var(--primary-banking) !important;
+  color: var(--text-on-primary) !important;
+}
+
+.login-footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.full-width { width: 100%; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+
+/* Parche para el selector de autores en modo oscuro */
+.dark-theme .mat-mdc-select-value,
+.dark-theme .mat-mdc-select-arrow,
+.dark-theme .mat-mdc-option {
+  color: #ffffff !important;
+}
+
+.dark-theme .mat-mdc-option:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fondo del panel desplegable */
+.mat-mdc-select-panel {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color);
+}
+
+/* Estética de Etiquetas de Autor */
+.authors-chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.author-tag {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border-color);
+  
+  .mat-icon {
+    font-size: 14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    color: var(--primary-banking);
+  }
+}
+
+/* Estilos para Código y Stock */
+.banking-cell-code {
+  color: var(--primary-banking);
+  letter-spacing: 1px;
+}
+
+.stock-indicator {
+  background-color: rgba(0, 128, 0, 0.1);
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  border: 1px solid rgba(0, 128, 0, 0.2);
+}
+
+.stock-indicator.out-of-stock {
+  background-color: rgba(211, 47, 47, 0.1);
+  color: #d32f2f;
+  border: 1px solid rgba(211, 47, 47, 0.2);
+}
+
+.dark-theme .stock-indicator {
+  background-color: rgba(76, 201, 240, 0.1);
+  color: var(--primary-banking);
+  border-color: var(--primary-banking);
+}
+
+.dark-theme .stock-indicator.out-of-stock {
+  color: #ff5252;
+  border-color: #ff5252;
+}

@@ -1,0 +1,40 @@
+<div class="login-container">
+  <mat-card class="login-card shadow-lg">
+    
+    <div class="login-header">
+      <mat-icon class="bank-logo">account_balance</mat-icon>
+      <h1 class="banking-title">SISTEMA CENTRAL</h1>
+      <p class="subtitle">Autenticación de Terminal de Biblioteca</p>
+    </div>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        
+        <mat-form-field appearance="outline" class="full-width banking-field mb-3">
+          <mat-label>Usuario Institucional</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="username" placeholder="Ingrese su ID">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width banking-field mb-4">
+          <mat-label>Contraseña Dinámica</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())" type="button">
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="btn-login" type="submit" [disabled]="loginForm.invalid">
+          <mat-icon>login</mat-icon> INICIAR SESIÓN
+        </button>
+
+      </form>
+    </mat-card-content>
+
+    <div class="login-footer">
+      <p>© 2026 Corporación Bancaria - Acceso Restringido</p>
+    </div>
+
+  </mat-card>
+</div>

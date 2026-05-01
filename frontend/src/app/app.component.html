@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <span>📚 Sistema de Libros</span>
+</mat-toolbar>
+
+<div class="layout">
+  <router-outlet></router-outlet>
+</div>
+
+<div style="padding: 10px; background: #004481; color: white; display: flex; gap: 20px;">
+  <button (click)="authService.login('ADMIN')">Entrar como ADMIN</button>
+  <button (click)="authService.login('VISITOR')">Entrar como VISITANTE</button>
+  <span>Usuario: {{ authService.currentUser()?.username || 'Ninguno' }}</span>
+</div>
