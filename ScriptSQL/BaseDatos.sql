@@ -24,3 +24,6 @@ INSERT INTO book (code, title, description, page_count, quantity) VALUES
 INSERT INTO author (first_name, last_name, book_id) VALUES 
 ('León', 'Tolstoi', 1),
 ('Robert', 'C. Martin', 2);
+
+--Verificación rápida
+SELECT * FROM book;
