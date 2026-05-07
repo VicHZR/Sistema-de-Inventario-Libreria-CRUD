@@ -1,8 +1,8 @@
-# 🏦 Digital Bank Lib: Corporate Assets Inventory
+# 🏦 Digital Lib: Corporate Assets Inventory
 
-![Angular](https://shields.io)
+![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
 ![Angular Material](https://img.shields.io/badge/Angular%20Material-MDC-3F51B5?logo=angular&logoColor=white)
-![Spring Boot](https://shields.io)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.5-6DB33F?logo=springboot&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-21-007396?logo=openjdk&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791?logo=postgresql&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue)
