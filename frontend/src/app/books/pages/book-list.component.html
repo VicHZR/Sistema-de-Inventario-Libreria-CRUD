@@ -1,11 +1,9 @@
 <mat-card class="crud-card shadow-lg" [class.dark-theme]="isDarkMode()">
- 
-  <!-- BLOQUE DE SEGURIDAD INTERNA -->
+
   <div style="display: none;">
     @if (authService.isAdmin()) { <span>Modo Administrador Activo</span> }
   </div>
 
-  <!-- CABECERA ESTILO BANCO CORPORATIVO -->
   <div class="crud-header">
     <div class="title-group">
       <div class="header-icon-container">
@@ -13,19 +11,17 @@
       </div>
       <div>
         <h2 class="m-0 banking-title">Biblioteca Digital</h2>
-        <p class="text-secondary subtitle">Gestión de Acervos Corporativos</p>
+        <p class="text-secondary subtitle">Gestión de Inventario de Libros</p>
       </div>
     </div>
 
     <div class="header-actions">
-      <!-- Botón de Modo Oscuro / Claro -->
       <button mat-icon-button (click)="toggleTheme()" matTooltip="Alternar Apariencia" class="theme-toggle">
         <mat-icon [style.color]="'var(--text-main)'">
           {{ isDarkMode() ? 'light_mode' : 'dark_mode' }}
         </mat-icon>
       </button>
-      
-      <!-- ACCIÓN RESTRINGIDA: Registro de nuevos Activos -->
+
       @if (authService.isAdmin()) {
         <button mat-flat-button color="primary" (click)="openForm()" class="btn-primary-banking">
           <mat-icon>add_circle_outline</mat-icon> REGISTRAR LIBRO
@@ -34,11 +30,8 @@
     </div>
   </div>
 
-  <!-- SECCIÓN DE FILTROS DASHBOARD (Búsqueda por Título o Código) -->
   <div class="crud-filters banking-filters p-4 rounded-lg">
     <div class="filter-inputs-container">
-      
-      <!-- Filtro Principal: Soporta Título y Código -->
       <mat-form-field appearance="outline" class="filter-field banking-field">
         <mat-label>Buscador Global</mat-label>
         <mat-icon matPrefix>search</mat-icon>
@@ -46,50 +39,43 @@
         <mat-hint>Busque por título o código de activo</mat-hint>
       </mat-form-field>
 
-      <!-- Filtro Secundario: Extensión -->
       <mat-form-field appearance="outline" class="filter-field banking-field">
         <mat-label>Páginas Mínimas</mat-label>
         <mat-icon matPrefix>menu_book</mat-icon>
         <input matInput type="number" min="0" [(ngModel)]="minPages">
       </mat-form-field>
-
     </div>
 
-    <!-- Acciones de Filtrado Uniformes -->
     <div class="button-group-banking">
       <button mat-flat-button (click)="search()" [disabled]="!canSearch()" class="btn-banking-uniform btn-execute">
         <mat-icon>filter_alt</mat-icon> EJECUTAR FILTRO
       </button>
-      
+
       <button mat-flat-button (click)="clearFilters()" class="btn-banking-uniform btn-clear">
         <mat-icon>refresh</mat-icon> LIMPIAR
       </button>
-      
+
       <button mat-flat-button (click)="loadAllBooks()" class="btn-banking-uniform btn-all">
         <mat-icon>auto_stories</mat-icon> VER CATÁLOGO
       </button>
     </div>
   </div>
 
-  <!-- TABLA DE ALTA DENSIDAD: VISTA DE INVENTARIO -->
   <div class="crud-table-container mt-4">
     <table mat-table [dataSource]="books()" class="banking-table">
-      
-      <!-- COLUMNA: CÓDIGO (ID Institucional) -->
+
       <ng-container matColumnDef="code">
         <th mat-header-cell *matHeaderCellDef> CÓDIGO </th>
-        <td mat-cell *matCellDef="let b" class="fw-bold banking-cell-code"> 
-          {{ b.code || 'S/N' }} 
+        <td mat-cell *matCellDef="let b" class="fw-bold banking-cell-code">
+          {{ b.code || 'S/N' }}
         </td>
       </ng-container>
 
-      <!-- COLUMNA: TÍTULO -->
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> TÍTULO </th>
         <td mat-cell *matCellDef="let b" class="fw-bold banking-cell-title"> {{ b.title }} </td>
       </ng-container>
 
-      <!-- COLUMNA: AUTORES (Chips Dinámicos) -->
       <ng-container matColumnDef="authors">
         <th mat-header-cell *matHeaderCellDef> AUTORES RESPONSABLES </th>
         <td mat-cell *matCellDef="let b">
@@ -106,33 +92,29 @@
         </td>
       </ng-container>
 
-      <!-- COLUMNA: PÁGINAS -->
       <ng-container matColumnDef="pageCount">
         <th mat-header-cell *matHeaderCellDef> PÁGINAS </th>
-        <td mat-cell *matCellDef="let b"> 
+        <td mat-cell *matCellDef="let b">
           <span class="page-badge-banking">{{ b.pageCount }} pags</span>
         </td>
       </ng-container>
 
-      <!-- COLUMNA: STOCK (Con Indicador de Estado) -->
       <ng-container matColumnDef="quantity">
         <th mat-header-cell *matHeaderCellDef> STOCK </th>
-        <td mat-cell *matCellDef="let b"> 
+        <td mat-cell *matCellDef="let b">
           <span class="stock-indicator" [class.out-of-stock]="b.quantity === 0">
             {{ b.quantity }} <small>uds.</small>
           </span>
         </td>
       </ng-container>
 
-      <!-- COLUMNA: DESCRIPCIÓN -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
-        <td mat-cell *matCellDef="let b" class="text-truncate secondary-text-table" style="max-width: 250px; color: var(--text-secondary);"> 
-          {{ b.description }} 
+        <td mat-cell *matCellDef="let b" class="text-truncate secondary-text-table" style="max-width: 250px; color: var(--text-secondary);">
+          {{ b.description }}
         </td>
       </ng-container>
 
-      <!-- COLUMNA ACCIONES: Restringida a Administradores -->
       @if (authService.isAdmin()) {
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef class="text-center"> GESTIÓN </th>
@@ -150,8 +132,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns()" class="row-hover-banking"></tr>
     </table>
-    
-    <!-- Mensaje Informativo de Tabla Vacía -->
+
     @if (books().length === 0 && !isLoading()) {
       <div class="empty-state-banking p-5 text-center">
         <mat-icon class="empty-icon">find_in_page</mat-icon>
@@ -160,3 +141,24 @@
     }
   </div>
 </mat-card>
+
+
+<ng-template #confirmDialog>
+  <div class="confirm-dialog-container" [class.dark-theme]="isDarkMode()">
+    <h2 mat-dialog-title class="dialog-title-warning">
+      <mat-icon color="warn">warning</mat-icon> Confirmar Eliminación
+    </h2>
+
+    <mat-dialog-content class="dialog-content">
+      <p>¿Desea eliminar este registro del sistema de forma permanente?</p>
+      <p class="text-danger small">Esta acción no se puede deshacer.</p>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button mat-button [mat-dialog-close]="false" class="btn-cancel">CANCELAR</button>
+      <button mat-flat-button color="warn" [mat-dialog-close]="true" class="btn-confirm">
+        <mat-icon>delete_forever</mat-icon> ACEPTAR Y ELIMINAR
+      </button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>

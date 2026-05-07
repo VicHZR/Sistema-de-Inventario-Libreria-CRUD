@@ -4,12 +4,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Entidad de Negocio: Book
- * Representa un activo bibliográfico dentro del sistema central.
- * Incluye gestión de inventario y relación dinámica con autores.
- *  
- */
 @Entity
 @Table(name = "book")
 public class Book {
@@ -18,11 +12,6 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * Identificador institucional único (SKU / ISBN).
-     * Se establece como nullable = true para permitir la transición
-     * de datos sin colisiones en el sistema de base de datos.
-     */
     @Column(unique = true, nullable = true) 
     private String code;
 
@@ -35,17 +24,8 @@ public class Book {
     @Column(name = "page_count")
     private int pageCount;
 
-    /**
-     * Control de existencias físicas en el inventario institucional.
-     * Inicializado en 0 para garantizar consistencia en cálculos.
-     */
     private int quantity = 0; 
 
-    /**
-     * Relación bidireccional con la entidad Author.
-     * Se utiliza 'mappedBy' para delegar la gestión de la llave foránea
-     * al objeto Author, solucionando errores de persistencia
-     */
     @OneToMany(
         mappedBy = "book",
         cascade = CascadeType.ALL, 
@@ -54,23 +34,21 @@ public class Book {
     )
     private List<Author> authors = new ArrayList<>();
 
-    // Constructor estándar requerido por la especificación JPA
     public Book() {}
 
-    // --- FUNCIONALIDAD DE APOYO ---
 
-    /**
-     * Método de conveniencia para asegurar la integridad bidireccional.
-     * Vincula el autor con el libro actual antes de la persistencia.
-     */
     public void addAuthor(Author author) {
-        authors.add(author);
-        author.setBook(this);
+        if (author != null) {
+            authors.add(author);
+            author.setBook(this);
+        }
     }
 
-    /**
-     * Representación textual para auditoría técnica en consola.
-     */
+    public void removeAuthor(Author author) {
+        authors.remove(author);
+        author.setBook(null);
+    }
+
     @Override
     public String toString() {
         return "Book [ID=" + id + 
@@ -79,8 +57,7 @@ public class Book {
                ", Stock=" + quantity + "]";
     }
 
-    // --- MÉTODOS DE ACCESO (GETTERS Y SETTERS) ---
-
+    // Getters y Setters
     public Long getId() { 
         return id; 
     }
@@ -134,10 +111,11 @@ public class Book {
     }
     
     public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+       
+        this.authors.clear();
         if (authors != null) {
             for (Author author : authors) {
-                author.setBook(this);
+                this.addAuthor(author);
             }
         }
     }

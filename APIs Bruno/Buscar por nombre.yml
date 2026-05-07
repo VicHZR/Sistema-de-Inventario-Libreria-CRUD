@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: "{{url}}api/books/search?title=clean"
+  url: "{{url}}api/books/search?title=Cien años de soledad"
   params:
     - name: title
-      value: clean
+      value: Cien años de soledad
       type: query
   auth: inherit
 

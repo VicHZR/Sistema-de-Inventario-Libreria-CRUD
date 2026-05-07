@@ -17,10 +17,7 @@ public class BookController {
         this.service = service;
     }
 
-    /**
-     * ✅ LISTADO BASE: Responde a http://localhost:8081/api/books
-     * Devuelve el catálogo completo con soporte de paginación.
-     */
+
     @GetMapping
     public Page<Book> getAll(Pageable pageable) {
         return service.search("", 0, pageable);
@@ -41,9 +38,7 @@ public class BookController {
         service.delete(id);
     }
 
-    /**
-     * ✅ BÚSQUEDA FILTRADA: Mapea 'title' al término general (Título/Código).
-     */
+
     @GetMapping("/search")
     public Page<Book> search(
             @RequestParam(name = "title", defaultValue = "") String term,

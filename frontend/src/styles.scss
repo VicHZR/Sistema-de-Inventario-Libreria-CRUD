@@ -1,7 +1,7 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-/* 
-   ===== SISTEMA DE DISEÑO INTEGRAL (V15.0) ===== 
+/*
+   ===== SISTEMA DE DISEÑO INTEGRAL (V15.0) =====
    Arquitectura de Alta Gama: Visibilidad Total, Modal Espaciado y Doble Tema
 */
 
@@ -11,7 +11,7 @@
   --card-bg: #ffffff;
   --filter-section-bg: #f8fafc;
   --input-bg: #ffffff;
-  
+
   /* Colores de Identidad */
   --primary-banking: #004481;  /* Azul Ejecutar */
   --clear-banking: #475569;    /* Gris Pizarra Limpiar */
@@ -24,7 +24,7 @@
   --text-on-primary: #ffffff;
   --border-color: #94a3b8;     /* Borde fuerte para visibilidad */
   --table-header: #f1f5f9;
-  
+
   /* Sombras y Efectos */
   --glow-edit: rgba(0, 68, 129, 0.3);
   --glow-delete: rgba(211, 47, 47, 0.3);
@@ -33,11 +33,11 @@
 
 .dark-theme {
   /* --- TEMA OSCURO: MIDNIGHT DASHBOARD --- */
-  --bg-app: #0a1128; 
-  --card-bg: #16213e; 
+  --bg-app: #0a1128;
+  --card-bg: #16213e;
   --filter-section-bg: #1e293b;
   --input-bg: #0f172a;
-  
+
   /* Colores Eléctricos */
   --primary-banking: #00e5ff;  /* Turquesa Neón */
   --clear-banking: #ffb300;    /* Ámbar */
@@ -45,8 +45,8 @@
   --accent-banking: #22d3ee;
 
   /* Tipografía Dark Mode */
-  --text-main: #ffffff !important; 
-  --text-secondary: #cbd5e1; 
+  --text-main: #ffffff !important;
+  --text-secondary: #cbd5e1;
   --text-on-primary: #000000;  /* Letras Negras para botones brillantes */
   --border-color: #334155;
   --table-header: #1e293b;
@@ -66,7 +66,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h2, p, span, th, td, label {
+h2, 
+p, 
+span, 
+th, 
+td, 
+label {
   color: inherit;
 }
 
@@ -109,7 +114,7 @@ h2, p, span, th, td, label {
   background-color: var(--filter-section-bg) !important;
   border: 2px solid var(--border-color) !important;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 32px;
   padding: 32px !important;
   border-radius: 20px !important;
@@ -118,16 +123,14 @@ h2, p, span, th, td, label {
 
 .filter-inputs-container {
   display: flex;
-  gap: 40px; 
+  gap: 40px;
   width: 100%;
 }
 
-/* Sobreescritura de Campos Material (Input) */
 .banking-field {
   flex: 1;
   transition: transform 0.3s ease;
 
-  /* Contorno visible */
   .mdc-notched-outline__leading,
   .mdc-notched-outline__notch,
   .mdc-notched-outline__trailing {
@@ -146,20 +149,18 @@ h2, p, span, th, td, label {
     font-weight: 600 !important;
   }
 
-  .mat-mdc-form-field-label, 
+  .mat-mdc-form-field-label,
   .mat-mdc-floating-label {
     color: var(--text-secondary) !important;
     font-weight: 500 !important;
   }
 }
 
-/* PARCHE PARA MODO OSCURO: TEXTO E ICONOS */
 .dark-theme {
   .mat-mdc-input-element::placeholder {
     color: rgba(255, 255, 255, 0.7) !important;
   }
-  
-  /* Forzar iconos blancos (libro, líneas, lupa) */
+
   .mat-mdc-form-field-icon-prefix .mat-icon,
   .mat-mdc-form-field-icon-suffix .mat-icon,
   .mat-icon-button .mat-icon {
@@ -186,7 +187,6 @@ h2, p, span, th, td, label {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Identidad Visual de Botones */
 .mat-mdc-flat-button.btn-execute {
   background-color: var(--primary-banking) !important;
   color: var(--text-on-primary) !important;
@@ -202,7 +202,6 @@ h2, p, span, th, td, label {
   color: #ffffff !important;
 }
 
-/* Hover Effects para botones */
 .mat-mdc-flat-button.btn-banking-uniform:hover {
   filter: brightness(1.15);
   transform: translateY(-2px);
@@ -217,7 +216,8 @@ h2, p, span, th, td, label {
   margin-top: 40px;
 }
 
-.mat-mdc-table, .banking-table {
+.mat-mdc-table, 
+.banking-table {
   background-color: transparent !important;
   width: 100%;
 }
@@ -242,8 +242,6 @@ h2, p, span, th, td, label {
 }
 
 /* ===== 6. MODAL "NUEVO LIBRO": ARQUITECTURA PROFESIONAL ===== */
-
-/* Fix: Fondo inmersivo en Dark Mode */
 .dark-theme .mat-mdc-dialog-container .mdc-dialog__surface {
   background-color: var(--card-bg) !important;
 }
@@ -255,7 +253,6 @@ h2, p, span, th, td, label {
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Cabecera del Modal (Sin degradados molestos) */
 .dialog-title {
   background-color: var(--primary-banking) !important;
   color: var(--text-on-primary) !important;
@@ -269,20 +266,17 @@ h2, p, span, th, td, label {
   border-bottom: 5px solid var(--accent-banking) !important;
 }
 
-/* Contenido del Formulario */
 .dialog-content {
   padding: 48px !important;
   background-color: transparent !important;
 }
 
-/* Separación Profesional de Módulos dentro del Modal */
 .form-row {
   display: flex;
-  gap: 32px; 
-  margin-bottom: 35px; 
+  gap: 32px;
+  margin-bottom: 35px;
 }
 
-/* Boton Guardar: Fix visibilidad total */
 .mat-mdc-flat-button.btn-primary-banking-modal {
   background-color: var(--primary-banking) !important;
   color: var(--text-on-primary) !important;
@@ -408,7 +402,7 @@ h2, p, span, th, td, label {
   align-items: center;
   gap: 4px;
   border: 1px solid var(--border-color);
-  
+
   .mat-icon {
     font-size: 14px !important;
     width: 14px !important;
@@ -447,4 +441,70 @@ h2, p, span, th, td, label {
 .dark-theme .stock-indicator.out-of-stock {
   color: #ff5252;
   border-color: #ff5252;
+}
+
+/* ===== 8. DIÁLOGO DE CONFIRMACIÓN (REEMPLAZO DE WINDOW.CONFIRM) ===== */
+.banking-dialog-class {
+  .mat-mdc-dialog-container {
+    background-color: var(--card-bg) !important;
+    border: 1px solid rgba(0, 242, 255, 0.3) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+.confirm-dialog-container {
+  padding: 10px;
+
+  .dialog-title-warning {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ff5252 !important;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+  }
+
+  .dialog-content {
+    /* CORRECCIÓN: Usar text-main para que sea BLANCO en Dark Mode */
+    color: var(--text-main) !important;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    padding-top: 15px !important;
+
+    p {
+      color: var(--text-main) !important;
+    }
+
+    .text-danger {
+      color: #ff8a80 !important;
+      font-weight: 500;
+      margin-top: 10px;
+      display: block;
+    }
+  }
+
+  .dialog-actions {
+    padding: 20px 0 10px 0 !important;
+
+    .btn-cancel {
+      color: var(--text-secondary) !important;
+      font-weight: 600;
+    }
+
+    .btn-confirm {
+      background-color: #ff5252 !important;
+      color: white !important;
+      border-radius: 6px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+    }
+  }
+}
+
+body:not(.dark-theme) .banking-dialog-class .mat-mdc-dialog-container {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0;
+  .dialog-content { color: #475569 !important; }
+  .btn-cancel { color: #64748b !important; }
 }

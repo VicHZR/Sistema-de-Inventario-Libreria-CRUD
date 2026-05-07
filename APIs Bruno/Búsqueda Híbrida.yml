@@ -5,13 +5,13 @@ info:
 
 http:
   method: GET
-  url: "{{url}}api/books/search?title=BK-FIN&minPages=100&page=0&size=10"
+  url: "{{url}}api/books/search?title=BK-FIN&minPages=250&page=0&size=10"
   params:
     - name: title
       value: BK-FIN
       type: query
     - name: minPages
-      value: "100"
+      value: "250"
       type: query
     - name: page
       value: "0"

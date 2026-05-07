@@ -41,19 +41,19 @@ export class BookFormComponent implements OnInit {
     this.isEditMode = !!this.data;
 
     this.bookForm = this.fb.group({
-      // Identificadores y Datos de Inventario
-      code: ['', [Validators.required]], // Nuevo Campo
+      id: [null],
+      code: ['', [Validators.required]],
       title: ['', [Validators.required, Validators.minLength(3)]],
       pageCount: [1, [Validators.required, Validators.min(1)]],
-      quantity: [1, [Validators.required, Validators.min(0)]], // Nuevo Campo
+      quantity: [1, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.required]],
-      authors: this.fb.array([]) 
+      authors: this.fb.array([])
     });
 
     if (this.isEditMode) {
       this.patchFormData();
     } else {
-      this.addAuthor(); 
+      this.addAuthor();
     }
   }
 
@@ -61,8 +61,9 @@ export class BookFormComponent implements OnInit {
     return this.bookForm.get('authors') as FormArray;
   }
 
-  createAuthorGroup(firstName = '', lastName = ''): FormGroup {
+  createAuthorGroup(id = null, firstName = '', lastName = ''): FormGroup {
     return this.fb.group({
+      id: [id],
       firstName: [firstName, Validators.required],
       lastName: [lastName, Validators.required]
     });
@@ -82,17 +83,19 @@ export class BookFormComponent implements OnInit {
     this.authorsFormArray.clear();
     if (this.data.authors && this.data.authors.length > 0) {
       this.data.authors.forEach((auth: any) => {
-        this.authorsFormArray.push(this.createAuthorGroup(auth.firstName, auth.lastName));
+
+        this.authorsFormArray.push(this.createAuthorGroup(auth.id, auth.firstName, auth.lastName));
       });
     } else {
       this.addAuthor();
     }
 
     this.bookForm.patchValue({
-      code: this.data.code, // Parcheo de Código
+      id: this.data.id,
+      code: this.data.code,
       title: this.data.title,
       pageCount: this.data.pageCount,
-      quantity: this.data.quantity, // Parcheo de Cantidad
+      quantity: this.data.quantity,
       description: this.data.description
     });
   }
@@ -104,25 +107,26 @@ export class BookFormComponent implements OnInit {
       return;
     }
 
+
     const bookPayload = {
       ...this.bookForm.value,
       pageCount: Number(this.bookForm.value.pageCount),
-      quantity: Number(this.bookForm.value.quantity) // Asegurar tipo numérico
+      quantity: Number(this.bookForm.value.quantity)
     };
 
-    const request$ = this.isEditMode 
-      ? this.service.update(this.data.id, bookPayload) 
+    const request$ = this.isEditMode
+      ? this.service.update(this.data.id, bookPayload)
       : this.service.create(bookPayload);
 
     request$.subscribe({
       next: () => {
-        this.snackBar.open('Transacción exitosa: Registro actualizado en el sistema.', 'OK', { duration: 2000 });
+        this.snackBar.open('Transacción exitosa: Registro procesado en el sistema.', 'OK', { duration: 2000 });
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error('Error de persistencia:', err);
-        this.snackBar.open('Error: El código de libro ya existe o el servidor no responde.', 'Reintentar', { 
-          duration: 4000 
+        this.snackBar.open('Error: El código ya existe o fallo de servidor (HTTP 500).', 'Reintentar', {
+          duration: 4000
         });
       }
     });

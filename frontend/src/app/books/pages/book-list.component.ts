@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -36,26 +36,28 @@ import { BookFormComponent } from './book-form.component';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent {
-  // --- INYECCIÓN DE DEPENDENCIAS DE ALTA DISPONIBILIDAD ---
+  // --- INYECCIÓN DE DEPENDENCIAS ---
   private service = inject(BookService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
   public authService = inject(AuthService);
 
-  // --- ESTADOS REACTIVOS (ANGULAR 21 SIGNALS) ---
+  // Referencia al template del diálogo de confirmación en el HTML
+  @ViewChild('confirmDialog') confirmDialog!: TemplateRef<any>;
+
+  // --- ESTADOS REACTIVOS ---
   books = signal<any[]>([]);
   isLoading = signal(false);
   isDarkMode = signal(false);
 
-  // --- MODELOS DE FILTRADO CORPORATIVO ---
+  // --- MODELOS DE FILTRADO ---
   title = '';
   minPages = 0;
-  
-  // Lógica de privilegios: Se incluyen 'code' y 'quantity' al catálogo maestro
+
   displayedColumns = computed(() => {
     const baseColumns = ['code', 'title', 'authors', 'pageCount', 'quantity', 'description'];
-    return this.authService.isAdmin() 
-      ? [...baseColumns, 'actions'] 
+    return this.authService.isAdmin()
+      ? [...baseColumns, 'actions']
       : baseColumns;
   });
 
@@ -63,9 +65,6 @@ export class BookListComponent {
     this.loadAllBooks();
   }
 
-  /**
-   * Validación estricta para habilitar la ejecución del filtro
-   */
   canSearch(): boolean {
     const hasTitle = this.title && this.title.trim().length > 0;
     const hasPages = this.minPages !== null && this.minPages > 0;
@@ -74,7 +73,6 @@ export class BookListComponent {
 
   search(): void {
     if (!this.canSearch()) return;
-
     this.isLoading.set(true);
     this.service.search(this.title.trim(), this.minPages, 0, 20, 'title,asc')
       .subscribe({
@@ -82,8 +80,7 @@ export class BookListComponent {
           this.books.set(res.content || []);
           this.isLoading.set(false);
         },
-        error: (err) => {
-          console.error('Fallo en búsqueda corporativa:', err);
+        error: () => {
           this.isLoading.set(false);
           this.books.set([]);
         }
@@ -98,10 +95,7 @@ export class BookListComponent {
           this.books.set(res.content || []);
           this.isLoading.set(false);
         },
-        error: (err) => {
-          console.error('Error al sincronizar catálogo institucional:', err);
-          this.isLoading.set(false);
-        }
+        error: () => this.isLoading.set(false)
       });
   }
 
@@ -111,9 +105,6 @@ export class BookListComponent {
     this.loadAllBooks();
   }
 
-  /**
-   * Alternar Modo Oscuro / Claro con persistencia de clase en el body
-   */
   toggleTheme(): void {
     this.isDarkMode.update(v => !v);
     document.body.classList.toggle('dark-theme');
@@ -121,9 +112,8 @@ export class BookListComponent {
 
   openForm(book?: any): void {
     if (!this.authService.isAdmin()) return;
-
     this.dialog.open(BookFormComponent, {
-      width: '750px', 
+      width: '750px',
       data: book ?? null,
       panelClass: 'banking-dialog-class'
     }).afterClosed().subscribe(ok => {
@@ -132,7 +122,7 @@ export class BookListComponent {
   }
 
   /**
-   * ELIMINACIÓN DE REGISTROS CON MANEJO DE INTEGRIDAD REFERENCIAL
+   * ELIMINACIÓN DE REGISTROS CON DIÁLOGO DE ANGULAR MATERIAL
    */
   delete(id: number): void {
     if (!this.authService.isAdmin()) return;
@@ -142,20 +132,28 @@ export class BookListComponent {
       return;
     }
 
-    if (confirm('¿Desea eliminar este registro del sistema de activos bancarios?')) {
-      this.service.delete(id).subscribe({
-        next: () => {
-          this.snackBar.open('Registro eliminado del inventario exitosamente.', 'OK', { duration: 2500 });
-          this.loadAllBooks();
-        },
-        error: (err) => {
-          console.error('Transacción de eliminación fallida:', err);
-          this.snackBar.open('Error: El activo no puede borrarse por dependencias externas.', 'Entendido', {
-            duration: 5000,
-            panelClass: ['banking-error-snackbar']
-          });
-        }
-      });
-    }
+    // Abrimos el diálogo usando el Template del HTML
+    const dialogRef = this.dialog.open(this.confirmDialog, {
+      width: '400px',
+      panelClass: 'banking-dialog-class'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // result será 'true' solo si presionan "Aceptar"
+      if (result === true) {
+        this.service.delete(id).subscribe({
+          next: () => {
+            this.snackBar.open('Registro eliminado exitosamente.', 'OK', { duration: 2500 });
+            this.loadAllBooks();
+          },
+          error: (err) => {
+            console.error('Fallo en eliminación:', err);
+            this.snackBar.open('Error: El activo no puede borrarse por dependencias.', 'Cerrar', {
+              duration: 5000
+            });
+          }
+        });
+      }
+    });
   }
 }

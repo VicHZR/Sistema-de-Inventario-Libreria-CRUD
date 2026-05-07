@@ -26,7 +26,7 @@ import { AuthService } from '../services/auth.service';
     MatSnackBarModule
   ],
   templateUrl: './login.component.html',
-  styleUrls: [] 
+  styleUrls: []
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
@@ -46,7 +46,7 @@ export class LoginComponent {
 
     const { username, password } = this.loginForm.value;
 
-    // Lógica de acceso por roles
+
     if (username === 'admin' && password === '1234') {
       this.authService.login('ADMIN');
       this.router.navigate(['/books']);
