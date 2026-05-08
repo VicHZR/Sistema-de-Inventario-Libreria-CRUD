@@ -7,7 +7,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791?logo=postgresql&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-**Digital Bank Lib** es un ecosistema Full-Stack de alto rendimiento diseñado bajo los estándares visuales y de seguridad de la **Banca Digital Moderna**. La plataforma centraliza la gestión de activos bibliográficos corporativos, implementando una arquitectura reactiva y una experiencia de usuario (UX) de grado institucional.
+**Digital Lib** es un ecosistema Full-Stack de alto rendimiento diseñado bajo los estándares visuales y de seguridad. La plataforma centraliza la gestión de activos bibliográficos, implementando una arquitectura reactiva y una experiencia de usuario.
 
 ---
 
@@ -101,4 +101,4 @@ ng serve -o
 - **Contexto:** Ideal para entornos corporativos, financieros o académicos de alta demanda.
 
 ---
-© 2026 **Digital Bank Lib** • *Corporate Assets Engineering Division.*
+© 2026 **Digital Lib** • 
